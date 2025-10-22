@@ -23,7 +23,7 @@ export default function WorkOnLaptop2() {
         transition={{ repeat: Infinity, duration: 2 }}
       />
 
-      {/* Caption */}
+      
       <motion.p
         className="absolute top-2 text-lg sm:text-xl font-semibold text-yellow-100 text-center"
         initial={{ opacity: 0, y: -10 }}
