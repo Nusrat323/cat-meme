@@ -47,10 +47,7 @@ export default function Salat() {
         Salah
       </motion.p>
 
-      {/* Prayer sound */}
-      <audio ref={prayRef} autoPlay>
-        <source src="/sounds/prayer.mp3" type="audio/mp3" />
-      </audio>
+      
     </div>
   );
 }

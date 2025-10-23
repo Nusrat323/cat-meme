@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
+import useEnableAudio from "../utils/useEnableAudio";
 
 export default function Eat() {
+  useEnableAudio();
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -11,25 +13,19 @@ export default function Eat() {
     const playAudio = () => {
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
-        audioRef.current.play();
+        audioRef.current.play().catch(() => {});
       }
     };
 
     const handleEnded = () => {
       playCount++;
-      if (playCount < maxPlays) {
-        playAudio();
-      }
+      if (playCount < maxPlays) playAudio();
     };
 
-    if (audioRef.current) {
-      audioRef.current.addEventListener("ended", handleEnded);
-      playAudio();
-    }
+    audioRef.current?.addEventListener("ended", handleEnded);
+    playAudio();
 
-    return () => {
-      audioRef.current?.removeEventListener("ended", handleEnded);
-    };
+    return () => audioRef.current?.removeEventListener("ended", handleEnded);
   }, []);
 
   return (
@@ -49,15 +45,12 @@ export default function Eat() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        Eating 🍽
+        Food 🍽
       </motion.p>
-      <audio ref={audioRef}>
-        <source src="/sounds/eating.mp3" type="audio/mp3" />
-      </audio>
+      <audio ref={audioRef}><source src="/sounds/eating.mp3" type="audio/mp3" /></audio>
     </div>
   );
 }
-
 
 
 

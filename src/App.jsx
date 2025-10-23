@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Intro from "./scenes/Intro";
 import Sleep from "./scenes/Sleep";
 import Wake from "./scenes/Wake";
@@ -28,9 +28,10 @@ const sceneDurations = [3000, 2500, 2500, 4000, 3000, 2000, 3000, 2000, 3000, 40
 
 export default function App() {
   const [index, setIndex] = useState(0);
+  const audioUnlocked = useRef(false);
 
   useEffect(() => {
-    // Automatically switch to the next scene based on duration
+    
     const timer = setTimeout(() => {
       setIndex((prev) => (prev + 1) % scenes.length);
     }, sceneDurations[index]);
@@ -38,10 +39,37 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [index]);
 
+  useEffect(() => {
+    
+    const unlockAudio = () => {
+      if (!audioUnlocked.current) {
+        const audios = document.querySelectorAll("audio");
+        audios.forEach((audio) => {
+          audio.muted = false;
+          audio.play().catch(() => {}); 
+        });
+        audioUnlocked.current = true;
+      }
+      window.removeEventListener("click", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+    };
+
+    window.addEventListener("click", unlockAudio);
+    window.addEventListener("touchstart", unlockAudio);
+
+    return () => {
+      window.removeEventListener("click", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+    };
+  }, []);
+
   const SceneComponent = scenes[index];
 
   return (
-    <div className="flex items-center justify-center min-h-screen w-full bg-gray-100 relative">
+    <div
+      className="flex items-center justify-center w-full  relative"
+      style={{ minHeight: "100svh" }}
+    >
       <SceneComponent />
     </div>
   );

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import useEnableAudio from "../utils/useEnableAudio";
 
 export default function WorkOnLaptop() {
+  useEnableAudio();
   return (
     <div className="relative w-full max-w-4xl aspect-[1/1] flex items-center justify-center
                     rounded-3xl shadow-xl overflow-hidden p-4 mx-auto
@@ -14,7 +16,7 @@ export default function WorkOnLaptop() {
                   transition={{ duration: 1 }}>
         Work work work... 💻
       </motion.p>
-      <audio autoPlay><source src="/sounds/typing.mp3" type="audio/mp3"/></audio>
+      <audio autoPlay muted={false}><source src="/sounds/typing.mp3" type="audio/mp3"/></audio>
     </div>
   );
 }

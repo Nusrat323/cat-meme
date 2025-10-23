@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import useEnableAudio from "../utils/useEnableAudio";
 
 export default function WaterPlants() {
+  useEnableAudio();
   return (
     <div className="relative w-full max-w-4xl aspect-[1/1] flex items-center justify-center
                     rounded-3xl shadow-xl overflow-hidden p-4 mx-auto
@@ -12,8 +14,9 @@ export default function WaterPlants() {
                   initial={{opacity:0}} animate={{opacity:1}} transition={{duration:1}}>
         Watering my plants 🌿
       </motion.p>
-      <audio autoPlay><source src="/sounds/water.mp3" type="audio/mp3"/></audio>
+      <audio autoPlay muted={false}><source src="/sounds/water.mp3" type="audio/mp3"/></audio>
     </div>
   );
 }
+
 
